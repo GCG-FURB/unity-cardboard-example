@@ -30,4 +30,5 @@ public class PlayerController : MonoBehaviour {
     private void InvertTargetPosition() {
         target = new Vector3(target.x * -1 , target.y, target.z);
     }
+
 }
