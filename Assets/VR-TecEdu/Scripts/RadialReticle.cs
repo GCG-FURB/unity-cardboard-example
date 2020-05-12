@@ -8,19 +8,19 @@ using UnityEngine.UI;
 
 public class RadialReticle : MonoBehaviour
 {
-    [SerializeField] private float _defaultDistance = 5f;      // default distance between reticle and camera
-    [SerializeField] private bool _isNormalUsed;               // is reticle parallel to a surface or always facing camera.
-    [SerializeField] private Transform _reticleTransform;      // tranbslate reticle to target object
-    [SerializeField] private Transform _camera;                // camera position is reference for placing reticle
+    [SerializeField] private float _defaultDistance = 5f;           // default distance between reticle and camera
+    [SerializeField] private bool _isNormalUsed;                    // is reticle parallel to a surface or always facing camera.
+    [SerializeField] private Transform _reticleTransform = null;    // tranbslate reticle to target object
+    [SerializeField] private Transform _camera = null;              // camera position is reference for placing reticle
 
-    [SerializeField] private Image _radialImage;               //image that is filled as an indication of how long the gazepointer is hovered over item
-    [SerializeField] private float _radialDuration = 2f;      // time it takes to complete the reticle's fill (in seconds).
-    private bool _isRadialFilled = false;                     // check whether fill is complete, to avoid repeated hover completions
-    private float _timer;                                     //used to check timing of hover completion
+    [SerializeField] private Image _radialImage = null;             //image that is filled as an indication of how long the gazepointer is hovered over item
+    [SerializeField] private float _radialDuration = 2f;            // time it takes to complete the reticle's fill (in seconds).
+    private bool _isRadialFilled = false;                           // check whether fill is complete, to avoid repeated hover completions
+    private float _timer;                                           //used to check timing of hover completion
     
 
-    private Vector3 _originalScale;                            // initial scale of reticle so it can be rescaled and scale restored
-    private Quaternion _originalRotation;                      // initial rotation of reticle so it can be rotated and rotation later restored
+    private Vector3 _originalScale;                                 // initial scale of reticle so it can be rescaled and scale restored
+    private Quaternion _originalRotation;                           // initial rotation of reticle so it can be rotated and rotation later restored
 
 
     public bool IsNormalUsed

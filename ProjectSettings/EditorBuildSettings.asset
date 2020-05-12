@@ -6,12 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/menu.unity
+    path: Assets/VR-TecEdu/SampleProject/Scenes/menu.unity
     guid: f7239c7754b093e4890add3073f7c196
   - enabled: 1
-    path: Assets/Scenes/simple-scene.unity
+    path: Assets/VR-TecEdu/SampleProject/Scenes/simple-scene.unity
     guid: 912cf9ecdc01c814dbbe4a5ab97e5a1c
   - enabled: 1
-    path: Assets/Scenes/vr-scene.unity
+    path: Assets/VR-TecEdu/SampleProject/Scenes/vr-scene.unity
     guid: e5d2295b3a1598848aa8bdce582e5151
   m_configObjects: {}

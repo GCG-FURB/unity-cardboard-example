@@ -5,11 +5,10 @@ using UnityEngine.EventSystems;
 [RequireComponent(typeof(Camera))]
 public class VRGazeController : MonoBehaviour {
 
-    [SerializeField] private RadialReticle _reticle;               // The reticle, if applicable.
-    [SerializeField] private bool _showDebugRay;                   // Optionally show the debug ray.
+    [SerializeField] private RadialReticle _reticle = null;        // The reticle, if applicable.
+    [SerializeField] private bool _showDebugRay = false;           // Optionally show the debug ray.
     [SerializeField] private float _debugRayLength = 5f;           // Debug ray length.
     [SerializeField] private float _debugRayDuration = 1f;         // How long the Debug ray will remain visible.
-    [SerializeField] private float _RayLength = 500f;              // How far into the scene the ray is cast.
 
     //variables for EventSystem.RaycastAll
     PointerEventData m_pointerEventData;
