@@ -19,8 +19,28 @@ public class VRGazeController : MonoBehaviour {
     private VRTargetItem _target;
     private VRTargetItem _previousTarget;
 	
+    void Start()
+    {
+        _eventSystem = (EventSystem)FindObjectOfType(typeof(EventSystem));
+
+        if(_eventSystem == null)
+        {
+            Debug.LogError("É necessário adicionar um objeto EventSystem na cena para que a VRCamera funcione corretamente.");
+        }
+
+        if(Camera.allCameras.Length > 1)
+        {
+            Debug.LogError("Há mais de uma camera na cena. Recomenda-se remover todas exceto a VRCamera para prevenir comportamentos incorretos.");
+        }
+    }
+
 	void Update ()
     {
+        if(_eventSystem == null)
+        {
+            return;
+        }
+        
         GazeRaycast();
 	}
 
