@@ -3,48 +3,55 @@ using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class VRTargetItem : MonoBehaviour
+namespace TecEduFURB.VR
 {
-    //events invoked when gaze pointer enters or exits object
-    public UnityEvent m_gazeEnterEvent;
-    public UnityEvent m_gazeExitEvent;
-    //events that are invoked once we select this target item
-    public UnityEvent m_completionEvent;
-
-    private Selectable m_selectable;
-    private ISubmitHandler m_submit;
-
-    private void Awake()
+    public class VRTargetItem : MonoBehaviour
     {
-        m_selectable = GetComponent<Selectable>();
-        m_submit = GetComponent<ISubmitHandler>();
-    }
+        // [Header("Invoked when gaze pointer enters object")]
+        [Header("Chamado quando o ponteiro colide com este objeto")]
+        [SerializeField] private UnityEvent m_gazeEnterEvent = null;
+        // [Header("Invoked when gaze pointer exits object")]
+        [Header("Chamado quando o ponteiro deixa de colidir com este objeto")]
+        [SerializeField] private UnityEvent m_gazeExitEvent = null;
+        // [Header("Invoked when this target item is selected")]
+        [Header("Chamado quando este objeto é selecionado")]
+        [SerializeField] private UnityEvent m_completionEvent = null;
 
-    public void GazeEnter(PointerEventData pointer)
-    {
-        // When the user looks at the rendering of the scene, show the radial.
-       
-        if(m_selectable)
-            m_selectable.OnPointerEnter(pointer);
-        else
-            m_gazeEnterEvent.Invoke();
-    }
+        private Selectable m_selectable;
+        private ISubmitHandler m_submit;
 
-    public void GazeExit(PointerEventData pointer)
-    {
-        // When the user looks away from the rendering of the scene, hide the radial.
-        if (m_selectable)
-            m_selectable.OnPointerExit(pointer);
-        else
-            m_gazeExitEvent.Invoke();
-    }
+        private void Awake()
+        {
+            m_selectable = GetComponent<Selectable>();
+            m_submit = GetComponent<ISubmitHandler>();
+        }
 
-    public void GazeComplete(PointerEventData pointer)
-    {
-        //invoke events that are set up in the inspector
-        if (m_submit != null)
-            m_submit.OnSubmit(pointer);
-        else
-            m_completionEvent.Invoke();
+        public void GazeEnter(PointerEventData pointer)
+        {
+            // When the user looks at the rendering of the scene, show the radial.
+
+            if (m_selectable)
+                m_selectable.OnPointerEnter(pointer);
+            else
+                m_gazeEnterEvent.Invoke();
+        }
+
+        public void GazeExit(PointerEventData pointer)
+        {
+            // When the user looks away from the rendering of the scene, hide the radial.
+            if (m_selectable)
+                m_selectable.OnPointerExit(pointer);
+            else
+                m_gazeExitEvent.Invoke();
+        }
+
+        public void GazeComplete(PointerEventData pointer)
+        {
+            // invoke events that are set up in the inspector
+            if (m_submit != null)
+                m_submit.OnSubmit(pointer);
+            else
+                m_completionEvent.Invoke();
+        }
     }
 }

@@ -1,12 +1,15 @@
 ﻿using UnityEngine;
 using UnityEngine.XR;
 
-public class TurnVrOnOff : MonoBehaviour {
+namespace TecEduFURB.VR
+{
+    public class TurnVrOnOff : MonoBehaviour
+    {
+        [SerializeField] private bool vrModeEnabled = false;
 
-    [SerializeField] private bool vrModeEnabled = false;
-
-    void Start() {
-        XRSettings.enabled = vrModeEnabled;    
+        void Start()
+        {
+            XRSettings.enabled = vrModeEnabled;
+        }
     }
-
 }
