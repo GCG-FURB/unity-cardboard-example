@@ -4,6 +4,12 @@ using UnityEngine.EventSystems;
 
 namespace TecEduFURB.VR
 {
+    // TODO: renomear reticle para gaze
+    /// <summary>
+    /// 
+    /// É originalmente utilizado pelo prefab VRCamera, ou seja, não é necessário atribuir manualmente este script a 
+    /// qualquer objeto, bastando apenas adicionar o prefab VRCamera na cena.
+    /// </summary>
     [RequireComponent(typeof(Camera))]
     public class VRGazeController : MonoBehaviour
     {
@@ -55,21 +61,17 @@ namespace TecEduFURB.VR
             _pointerEventData.position = new Vector2(UnityEngine.XR.XRSettings.eyeTextureWidth / 2, UnityEngine.XR.XRSettings.eyeTextureHeight / 2);
 #endif
 
-            // Create a list of Raycast Results
             List<RaycastResult> results = new List<RaycastResult>();
             _eventSystem.RaycastAll(_pointerEventData, results);
 
-            // loop through all items hit
-            for (int i = 0; i < results.Count; i++)
+            foreach (var hit in results)
             {
-                if (results[i].gameObject.GetComponent<VRTargetItem>())
+                if (IsVRTarget(hit.gameObject))
                 {
-                    _target = results[i].gameObject.GetComponent<VRTargetItem>();
-                    _currentTarget = results[i];
+                    _target = hit.gameObject.GetComponent<VRTargetItem>();
+                    _currentTarget = hit;
+                    _reticle.SetPosition(hit);
 
-                    // Something was hit, set position to hit position.
-                    if (_reticle)
-                        _reticle.SetPosition(results[i]);
                     break;
                 }
 
@@ -78,16 +80,16 @@ namespace TecEduFURB.VR
             }
 
             // If current interactive item is not the same as the last interactive item, then call GazeEnter and start fill
-            if (_target && _target != _previousTarget)
+            if (IsNewTarget())
             {
-                _reticle.ShowRadialImage(true);
+                _reticle.ShowRadialImage();
                 _target.GazeEnter(_pointerEventData);
                 if (_previousTarget)
                     _previousTarget.GazeExit(_pointerEventData);
                 _reticle.StartProgress();
                 _previousTarget = _target;
             }
-            else if (_target && _target == _previousTarget) // hovering over same item, advance fill progress
+            else if (IsPreviousTarget()) // hovering over same item, advance fill progress
             {
                 if (_reticle.ProgressRadialImage())         // returns true if selection is completed
                     CompleteSelection();
@@ -100,16 +102,41 @@ namespace TecEduFURB.VR
 
                 _target = null;
                 _previousTarget = null;
-                _reticle.ShowRadialImage(false);
+                _reticle.HideRadialImage();
                 _reticle.ResetProgress();
                 _reticle.SetPosition();
             }
         }
 
+        /// <summary>
+        /// Verifica se o objeto informado possui o script VRTargetItem, ou seja, é um objeto com o qual
+        /// o gaze pdoe interagir.
+        /// </summary>
+        private bool IsVRTarget(GameObject obj)
+        {
+            return obj.GetComponent<VRTargetItem>();
+        }
+
+        /// <summary>
+        /// Verifica se o alvo atual mudou.
+        /// </summary>
+        private bool IsNewTarget()
+        {
+            return _target && _target != _previousTarget;
+        }
+
+        /// <summary>
+        /// Verifica se o alvo atual ainda é o mesmo.
+        /// </summary>
+        private bool IsPreviousTarget()
+        {
+            return _target && _target == _previousTarget;
+        }
+
         private void CompleteSelection()
         {
             // hide radial image
-            _reticle.ShowRadialImage(false);
+            _reticle.HideRadialImage();
 
             // radial progress completed, call completion events on target
             _target.GazeComplete(_pointerEventData);

@@ -14,7 +14,6 @@ namespace TecEduFURB.VR.Sample
 
         public void ChangeColor()
         {
-            Debug.Log("Entrou");
             if (blue)
             {
                 material.SetColor("_Color", Color.red);

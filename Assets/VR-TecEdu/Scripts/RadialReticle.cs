@@ -5,9 +5,11 @@ using UnityEngine.UI;
 namespace TecEduFURB.VR
 {
     /// <summary>
-    /// Originally written by Unity Technologies as part of VRStandardAssets modified to support interacting 
-    /// with UI and other game objects only through gaze and without button input reticle consists of a small dot, 
-    /// a simple sprite of a semi-transparent ring and an opaque ring with 360-fill sprite.
+    /// Script originalmente criado pela Unity Technologies como parte do VRStandardAssets e modificado para permitir 
+    /// interação através do reticle (ponteiro) com objetos 2D (Canvas) e 3D (GameObjects), bastando apontar o reticle 
+    /// para o objeto em questão. 
+    /// É originalmente utilizado pelo prefab VRCamera, ou seja, não é necessário atribuir manualmente este script a 
+    /// qualquer objeto, bastando apenas adicionar o prefab VRCamera na cena.
     /// </summary>
     public class RadialReticle : MonoBehaviour
     {
@@ -29,11 +31,6 @@ namespace TecEduFURB.VR
             // Store initial scale and rotation.
             _originalScale = _reticleTransform.localScale;
             _originalRotation = _reticleTransform.localRotation;
-        }
-
-        public void ShowRadialImage(bool isActive)
-        {
-            _radialImage.gameObject.SetActive(isActive);
         }
 
         // when no targets are hit -> set default distance of reticle
@@ -63,15 +60,38 @@ namespace TecEduFURB.VR
                 _reticleTransform.localRotation = _originalRotation;
         }
 
-        // fill progress of radial image
+        /// <summary>
+        /// Torna visível o círculo de seleção que aparece ao redor do reticle para demonstrar a seleção de objetos.
+        /// </summary>
+        public void ShowRadialImage()
+        {
+            _radialImage.gameObject.SetActive(true);
+        }
+
+        /// <summary>
+        /// Esconde o círculo de seleção que aparece ao redor do reticle para demonstrar a seleção de objetos.
+        /// </summary>
+        public void HideRadialImage()
+        {
+            _radialImage.gameObject.SetActive(false);
+        }
+
+        /// <summary>
+        /// Faz com que o círculo de seleção do reticle possa começar a ser preenchido.
+        /// </summary>
         public void StartProgress()
         {
             _isRadialFilled = false;
         }
 
+        // TODO: tornar esse método void e criar outro para dizer se o radial foi totalmente preenchido ou nao
+        /// <summary>
+        /// Aumenta gradativamente o preenchimento do círculo de seleção ao redor do reticle.
+        /// </summary>
+        /// <returns>True quando o círculo estiver preenchido e false caso contrário.</returns>
         public bool ProgressRadialImage()
         {
-            if (_isRadialFilled == false)
+            if (!_isRadialFilled)
             {
                 // advance timer
                 _timer += Time.deltaTime;
@@ -88,6 +108,10 @@ namespace TecEduFURB.VR
             return false;
         }
 
+
+        /// <summary>
+        /// Reinicia o círculo de seleção ao redor do reticle.
+        /// </summary>
         public void ResetProgress()
         {
             _timer = 0f;
