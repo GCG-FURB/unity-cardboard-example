@@ -60,3 +60,6 @@ crashlytics-build.properties
 
 .vscode
 
+# Allow executables only if inside .github/downloads/ folder
+!.github/downloads/*.apk
+!.github/downloads/*.unitypackage
