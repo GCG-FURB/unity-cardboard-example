@@ -5,53 +5,42 @@ using UnityEngine.UI;
 
 namespace TecEduFURB.VR
 {
+    /// <summary>
+    /// Responsável por identificar um objeto da cena como um VR Target, fazendo com que ele seja 
+    /// reconhecível pelo reticle (ponteiro) da VRCamera. Ou seja, todos os objetos da cena que possam
+    /// ser selecionáveis pelo reticle devem obrigatoriamente possuir este script anexado a eles.
+    /// </summary>
     public class VRTargetItem : MonoBehaviour
     {
-        // [Header("Invoked when gaze pointer enters object")]
         [Header("Chamado quando o ponteiro colide com este objeto")]
         [SerializeField] private UnityEvent m_gazeEnterEvent = null;
-        // [Header("Invoked when gaze pointer exits object")]
         [Header("Chamado quando o ponteiro deixa de colidir com este objeto")]
         [SerializeField] private UnityEvent m_gazeExitEvent = null;
-        // [Header("Invoked when this target item is selected")]
         [Header("Chamado quando este objeto é selecionado")]
         [SerializeField] private UnityEvent m_completionEvent = null;
 
-        private Selectable m_selectable;
-        private ISubmitHandler m_submit;
-
-        private void Awake()
-        {
-            m_selectable = GetComponent<Selectable>();
-            m_submit = GetComponent<ISubmitHandler>();
-        }
-
+        /// <summary>
+        /// Chama o evento GazeEnterEvent definido neste script via Editor.
+        /// </summary>
         public void GazeEnter(PointerEventData pointer)
         {
-            // When the user looks at the rendering of the scene, show the radial.
-
-            if (m_selectable)
-                m_selectable.OnPointerEnter(pointer);
-            else
-                m_gazeEnterEvent.Invoke();
+            m_gazeEnterEvent.Invoke();
         }
 
+        /// <summary>
+        /// Chama o evento GazeExitEvent definido neste script via Editor.
+        /// </summary>
         public void GazeExit(PointerEventData pointer)
         {
-            // When the user looks away from the rendering of the scene, hide the radial.
-            if (m_selectable)
-                m_selectable.OnPointerExit(pointer);
-            else
-                m_gazeExitEvent.Invoke();
+            m_gazeExitEvent.Invoke();
         }
 
+        /// <summary>
+        /// Chama o evento CompletionEvent definido neste script via Editor.
+        /// </summary>
         public void GazeComplete(PointerEventData pointer)
         {
-            // invoke events that are set up in the inspector
-            if (m_submit != null)
-                m_submit.OnSubmit(pointer);
-            else
-                m_completionEvent.Invoke();
+            m_completionEvent.Invoke();
         }
     }
 }

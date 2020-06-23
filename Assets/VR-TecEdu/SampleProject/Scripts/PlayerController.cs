@@ -2,9 +2,12 @@
 
 namespace TecEduFURB.VR.Sample
 {
+    /// <summary>
+    /// Responsável por controlar a movimentação do Player.
+    /// Originalmente utilizado pelo prefab Player.
+    /// </summary>
     public class PlayerController : MonoBehaviour
     {
-        // Campos privados mas que podem ser modificados através do editor da Unity
         [SerializeField] private float maxDistance = 3;
         [SerializeField] private float speed = 2;
 
@@ -21,8 +24,10 @@ namespace TecEduFURB.VR.Sample
             UpdatePlayerPosition();
         }
 
-        // Atualiza a posição do player sempre movendo ele em direção ao target (que começa a direita do jogador).
-        // Quando o player alcança o target, inverte a posição do target (se estava na direita, vai para a esquerda e vice versa),
+        /// <summary>
+        /// Atualiza a posição do player sempre movendo ele em direção ao target (que começa a direita do jogador).
+        /// Quando o player alcança o target, inverte a posição do target (se estava na direita, vai para a esquerda e vice versa).
+        /// </summary>
         private void UpdatePlayerPosition()
         {
             transform.position = Vector3.MoveTowards(transform.position, target, speed * Time.deltaTime);
@@ -31,7 +36,9 @@ namespace TecEduFURB.VR.Sample
                 InvertTargetPosition();
         }
 
-        // Inverte a posição do target no eixo X.
+        /// <summary>
+        /// Inverte a posição do target no eixo X.
+        /// </summary>
         private void InvertTargetPosition()
         {
             target = new Vector3(target.x * -1, target.y, target.z);

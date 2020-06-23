@@ -2,28 +2,31 @@
 
 namespace TecEduFURB.VR.Sample
 {
+    /// <summary>
+    /// Responsável por controlar o comportamento do Enemy.
+    /// Originalmente utilizado pelo prefab Enemy.
+    /// </summary>
     public class EnemyController : MonoBehaviour
     {
         private Material material;
-        private bool blue = false;
 
         void Start()
         {
             material = GetComponent<Renderer>().material;
         }
 
-        public void ChangeColor()
+        /// <summary>
+        /// Atualiza a cor deste objeto. 
+        /// Se a cor atual for azul troca para vermelha, se for vermelha troca para azul. 
+        /// </summary>
+        public void ChangeColor_OnClick()
         {
-            if (blue)
-            {
+            if (material.color == Color.blue)
                 material.SetColor("_Color", Color.red);
-                blue = false;
-            }
             else
-            {
                 material.SetColor("_Color", Color.blue);
-                blue = true;
-            }
         }
     }
+
+
 }
