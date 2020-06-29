@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -13,18 +13,18 @@ namespace TecEduFURB.VR
     public class VRTargetItem : MonoBehaviour
     {
         [Header("Chamado quando o ponteiro colide com este objeto")]
-        [SerializeField] private UnityEvent m_gazeEnterEvent = null;
+        [SerializeField] private UnityEvent gazeEnterEvent = null;
         [Header("Chamado quando o ponteiro deixa de colidir com este objeto")]
-        [SerializeField] private UnityEvent m_gazeExitEvent = null;
+        [SerializeField] private UnityEvent gazeExitEvent = null;
         [Header("Chamado quando este objeto é selecionado")]
-        [SerializeField] private UnityEvent m_completionEvent = null;
+        [SerializeField] private UnityEvent completionEvent = null;
 
         /// <summary>
         /// Chama o evento GazeEnterEvent definido neste script via Editor.
         /// </summary>
         public void GazeEnter(PointerEventData pointer)
         {
-            m_gazeEnterEvent.Invoke();
+            gazeEnterEvent.Invoke();
         }
 
         /// <summary>
@@ -32,7 +32,7 @@ namespace TecEduFURB.VR
         /// </summary>
         public void GazeExit(PointerEventData pointer)
         {
-            m_gazeExitEvent.Invoke();
+            gazeExitEvent.Invoke();
         }
 
         /// <summary>
@@ -40,7 +40,7 @@ namespace TecEduFURB.VR
         /// </summary>
         public void GazeComplete(PointerEventData pointer)
         {
-            m_completionEvent.Invoke();
+            completionEvent.Invoke();
         }
     }
 }

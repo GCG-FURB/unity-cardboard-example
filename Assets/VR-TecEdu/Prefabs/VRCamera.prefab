@@ -123,10 +123,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8fa61e33c348c6a4ab11c484e6cdcb21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _reticleController: {fileID: 6583198903533569757}
-  _showDebugRay: 0
-  _debugRayLength: 150
-  _debugRayDuration: 1
+  reticleController: {fileID: 6583198903533569757}
+  showDebugRay: 0
+  debugRayLength: 5
+  debugRayDuration: 1
 --- !u!114 &6583198903533569757
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -139,10 +139,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 93515b07f6ca2d74fae71ff86b4abd95, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _radialImage: {fileID: 8238967595775381855}
-  _reticleTransform: {fileID: 8238967596247245246}
-  _defaultDistance: 5
-  _selectionDuration: 0.2
+  radialImage: {fileID: 8238967595775381855}
+  reticleTransform: {fileID: 8238967596247245246}
+  defaultDistance: 5
+  selectionDuration: 0.2
 --- !u!1 &8238967595577023997
 GameObject:
   m_ObjectHideFlags: 0

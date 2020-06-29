@@ -16,13 +16,13 @@ namespace TecEduFURB.VR
     public class ReticleController : MonoBehaviour
     {
         [Tooltip("Imagem que será preenchida ao longo do tempo quando o reticle estiver sobre um objeto para indicar o tempo de seleção.")]
-        [SerializeField] private Image _radialImage = null;
+        [SerializeField] private Image radialImage = null;
         [Tooltip("Imagem utilizada para representar o reticle.")]
-        [SerializeField] private Transform _reticleTransform = null;
+        [SerializeField] private Transform reticleTransform = null;
         [Tooltip("Distância padrão entre o reticle e câmera.")]
-        [SerializeField] private float _defaultDistance = 5f;
+        [SerializeField] private float defaultDistance = 5f;
         [Tooltip("Tempo de seleção de um objeto em segundos. Ou seja, o tempo que a radialImage levará para ser preenchida.")]
-        [SerializeField] private float _selectionDuration = 0.2f;
+        [SerializeField] private float selectionDuration = 0.2f;
         
         private bool _isRadialFilled = false;
         private float _selectionTimer;
@@ -30,7 +30,7 @@ namespace TecEduFURB.VR
 
         private void Awake()
         {
-            _originalScale = _reticleTransform.localScale;
+            _originalScale = reticleTransform.localScale;
         }
 
         /// <summary>
@@ -40,8 +40,8 @@ namespace TecEduFURB.VR
         /// </summary>
         public void SetPosition()
         {
-            _reticleTransform.position = Camera.main.transform.position + Camera.main.transform.forward * _defaultDistance;
-            _reticleTransform.localScale = _originalScale * _defaultDistance;
+            reticleTransform.position = Camera.main.transform.position + Camera.main.transform.forward * defaultDistance;
+            reticleTransform.localScale = _originalScale * defaultDistance;
         }
 
         /// <summary>
@@ -50,8 +50,8 @@ namespace TecEduFURB.VR
         /// </summary>
         public void SetPosition(RaycastResult hit)
         {
-            _reticleTransform.localPosition = new Vector3(0f, 0f, hit.distance);
-            _reticleTransform.localScale = _originalScale * hit.distance;
+            reticleTransform.localPosition = new Vector3(0f, 0f, hit.distance);
+            reticleTransform.localScale = _originalScale * hit.distance;
         }
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace TecEduFURB.VR
         /// </summary>
         public void ShowRadialImage()
         {
-            _radialImage.gameObject.SetActive(true);
+            radialImage.gameObject.SetActive(true);
         }
 
         /// <summary>
@@ -67,13 +67,13 @@ namespace TecEduFURB.VR
         /// </summary>
         public void HideRadialImage()
         {
-            _radialImage.gameObject.SetActive(false);
+            radialImage.gameObject.SetActive(false);
         }
 
         /// <summary>
         /// Faz com que o círculo de seleção do reticle possa começar a ser preenchido.
         /// </summary>
-        public void StartProgress()
+        public void StartRadialImageProgress()
         {
             _isRadialFilled = false;
         }
@@ -81,19 +81,28 @@ namespace TecEduFURB.VR
         /// <summary>
         /// Aumenta gradativamente o preenchimento do círculo de seleção ao redor do reticle.
         /// </summary>
-        public void ProgressRadialImage()
+        public void IncreaseRadialImageProgress()
         {
             if (!IsRadialImageFilled())
             {
                 _selectionTimer += Time.deltaTime;
-                _radialImage.fillAmount = _selectionTimer / _selectionDuration;
+                radialImage.fillAmount = _selectionTimer / selectionDuration;
 
-                if (_selectionTimer >= _selectionDuration)
+                if (_selectionTimer >= selectionDuration)
                 {
                     _isRadialFilled = true;
-                    ResetProgress();
+                    ResetRadialImageProgress();
                 }
             }
+        }
+
+        /// <summary>
+        /// Reinicia o círculo de seleção ao redor do reticle.
+        /// </summary>
+        public void ResetRadialImageProgress()
+        {
+            _selectionTimer = 0f;
+            radialImage.fillAmount = 0f;
         }
 
         /// <summary>
@@ -103,15 +112,6 @@ namespace TecEduFURB.VR
         public bool IsRadialImageFilled()
         {
             return _isRadialFilled;
-        }
-
-        /// <summary>
-        /// Reinicia o círculo de seleção ao redor do reticle.
-        /// </summary>
-        public void ResetProgress()
-        {
-            _selectionTimer = 0f;
-            _radialImage.fillAmount = 0f;
         }
     }
 }

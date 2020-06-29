@@ -16,12 +16,12 @@ namespace TecEduFURB.VR
     public class VRGazeController : MonoBehaviour
     {
         [Tooltip("Objeto contendo o script ReticleController.")]
-        [SerializeField] private ReticleController _reticleController = null;
+        [SerializeField] private ReticleController reticleController = null;
 
         [Header("Configurações para Debug")]
-        [SerializeField] private bool _showDebugRay = false;
-        [SerializeField] private float _debugRayLength = 5f;
-        [SerializeField] private float _debugRayDuration = 1f;
+        [SerializeField] private bool showDebugRay = false;
+        [SerializeField] private float debugRayLength = 5f;
+        [SerializeField] private float debugRayDuration = 1f;
 
         private VRTargetItem _target;
         private VRTargetItem _previousTarget;
@@ -46,7 +46,7 @@ namespace TecEduFURB.VR
             if (_eventSystem == null)
                 return;
 
-            if (_showDebugRay)
+            if (showDebugRay)
                 ShowRay();
 
             HandleSelectionWithGazeRaycast();
@@ -94,7 +94,7 @@ namespace TecEduFURB.VR
         private void SetTarget(RaycastResult vrTarget)
         {
             _target = vrTarget.gameObject.GetComponent<VRTargetItem>();
-            _reticleController.SetPosition(vrTarget);
+            reticleController.SetPosition(vrTarget);
         }
 
         /// <summary>
@@ -128,11 +128,11 @@ namespace TecEduFURB.VR
         /// </summary>
         private void StartSelection()
         {
-            _reticleController.ShowRadialImage();
+            reticleController.ShowRadialImage();
             _target.GazeEnter(_pointerEventData);
             if (_previousTarget)
                 _previousTarget.GazeExit(_pointerEventData);
-            _reticleController.StartProgress();
+            reticleController.StartRadialImageProgress();
             _previousTarget = _target;
         }
 
@@ -141,8 +141,8 @@ namespace TecEduFURB.VR
         /// </summary>
         private void ContinueSelection()
         {
-            _reticleController.ProgressRadialImage();
-            if (_reticleController.IsRadialImageFilled())
+            reticleController.IncreaseRadialImageProgress();
+            if (reticleController.IsRadialImageFilled())
                 CompleteSelection();
         }
 
@@ -157,9 +157,9 @@ namespace TecEduFURB.VR
 
             _target = null;
             _previousTarget = null;
-            _reticleController.HideRadialImage();
-            _reticleController.ResetProgress();
-            _reticleController.SetPosition();
+            reticleController.HideRadialImage();
+            reticleController.ResetRadialImageProgress();
+            reticleController.SetPosition();
         }
 
         /// <summary>
@@ -168,7 +168,7 @@ namespace TecEduFURB.VR
         /// </summary>
         private void CompleteSelection()
         {
-            _reticleController.HideRadialImage();
+            reticleController.HideRadialImage();
             _target.GazeComplete(_pointerEventData);
         }
 
@@ -177,7 +177,7 @@ namespace TecEduFURB.VR
         /// </summary>
         private void ShowRay()
         {
-            Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * _debugRayLength, Color.blue, _debugRayDuration);
+            Debug.DrawRay(Camera.main.transform.position, Camera.main.transform.forward * debugRayLength, Color.blue, debugRayDuration);
         }
 
         /// <summary>
